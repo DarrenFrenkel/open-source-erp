@@ -13,7 +13,7 @@ from erp_app.forms import *
 
 def home(request):
     """View for the Homepage including list of Orders and Expenses""" 
-    list_of_orders = Orders_Products.objects.select_related()
+    list_of_orders = Orders.objects.select_related()
     list_of_expenses = Expenses.objects.all()[:5]
 
     empty_orders = False 
@@ -32,7 +32,16 @@ def home(request):
     return render(request, template, context)
 
 def customers(request):
-	pass
+    template = 'erp_app/customers.html'	
+    orders = Orders.objects.all()
+    c = Customers.objects.all()
+    list = []
+    for i in c:
+        list.append(i.total_cost)
+	total = sum(list)	
+    customers = Customers.objects.all()
+    context = RequestContext(request, {'customers':customers, 'orders':orders, 'total':total,})
+    return render(request, template, context)	
 
 def orders(request):
 	pass	

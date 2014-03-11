@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.functional import cached_property
 # Create your models here.
 
 class Customers(models.Model):
@@ -27,6 +27,14 @@ class Customers(models.Model):
     def __unicode__(self):  
         return self.first_name + " " + self.last_name 
 
+    def _total_cost_per_customer(self):
+        list = []
+        for i in self.orders_set.all():
+            list.append(i.total)
+        total_cost = sum(list) 			
+        return total_cost
+    total_cost = property(_total_cost_per_customer) 
+
 class Products(models.Model):
     name = models.CharField(max_length=500) 
     description = models.CharField(max_length=500)
@@ -43,16 +51,32 @@ class Orders(models.Model):
     payment_due_date = models.DateField('Payment Due Date') 
     custom_message = models.TextField()
     # purchases = models.ManyToManyField(Products, through='Orders_Products')
-  
+    
+    def __unicode__(self):
+        return self.customer.first_name + " " + self.customer.last_name	
+	
+    def _total(self):
+        list = []
+        for i in self.orders_products_set.all():
+            list.append(i.quantity * i.product.price)
+        total_order_cost = sum(list)
+        return total_order_cost
+    total = property(_total)
+	
+	
 class Orders_Products(models.Model):
     order = models.ForeignKey(Orders)
     product = models.ForeignKey(Products)
     quantity = models.IntegerField(default=0)
 
-    def cost(self):
-        costs = self.quantity * self.product_id.price
+    def __unicode__(self):
+        return self.product.name
+		
+    def _cost(self):
+        costs = self.quantity * self.product.price
         return costs
-           
+    cost = property(_cost)
+    		
 class General_Settings(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)

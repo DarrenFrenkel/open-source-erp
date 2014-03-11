@@ -1,0 +1,46 @@
+{% extends "erp_app/base.html" %}
+{% block content %}
+<section class="col-xs-7 main">
+				<div class="main-content">
+					<h2 class="main-title first">LEARN HOW TO USE OSERP</h2>
+					<div class="glyphicon glyphicon-cog settings"></div>
+					<div style="clear:both;"></div>
+					<div class="learn-oserp">
+						<div>
+							<p class="button-title">Unpaid</p>
+							<a class="btn btn-warning btn-lg active" role="button">{{orders.count}} OPEN INVOICES</a>
+							<a class="btn btn-danger btn-lg active" role="button">${{total}} DUE</a>
+						</div>
+						<div class="paid-button">
+							<p class="button-title">Paid</p>
+							<a class="btn btn-success btn-lg btn-block" role="button">PAID LAST 30 DAYS</a>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+					<h2 class="main-title second">RECENT CUSTOMERS</h2>
+					<div class="new-customer"><button type="button" class="btn btn-primary">New Customer</button></div>					
+					<table class="table table_hp_orders">
+						<tr>
+							<th>Customer</th>
+							<th>PENDING INVOICES</th>
+							<th>BALANCE</th>
+							<th>ACTION</th>
+						</tr>
+						{% for customer in customers %}
+						<tr>
+		                    <td>{{ customer }}</td>
+		                    <td><a href="#" >{{ customer.orders_set.count }} Open Invoice</a></td>
+		                    <td>${{ customer.total_cost }}</td>
+		                    <td> <button type="button" class="btn btn-default btn-sm">Receive Payment</button> </td>
+						</tr>
+						{% endfor %}
+					</table>
+
+			</section>		
+	
+			<aside class="col-xs-3 sidebar">
+				<div class="sb-content">
+					<h3>Advertising, interesting information (e.g. markets) and extra options will go here</h3>
+				</div>
+			</aside>
+{% endblock %}
