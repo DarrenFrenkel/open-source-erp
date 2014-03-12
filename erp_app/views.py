@@ -32,7 +32,8 @@ def home(request):
     return render(request, template, context)
 
 def customers(request):
-    template = 'erp_app/customers.html'	
+    template = 'erp_app/customers.html'
+    form = CustomerForm()	
     orders = Orders.objects.all()
     c = Customers.objects.all()
     list = []
@@ -40,7 +41,7 @@ def customers(request):
         list.append(i.total_cost)
 	total = sum(list)	
     customers = Customers.objects.all()
-    context = RequestContext(request, {'customers':customers, 'orders':orders, 'total':total,})
+    context = RequestContext(request, {'customers':customers, 'orders':orders, 'total':total, 'form':form})
     return render(request, template, context)	
 
 def orders(request):

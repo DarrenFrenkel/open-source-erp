@@ -5,24 +5,24 @@ from django.utils.functional import cached_property
 class Customers(models.Model):
     title = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
-    middle_name = models.CharField(max_length=200) 
+    middle_name = models.CharField(max_length=200, blank=True) 
     last_name = models.CharField(max_length=200)
-    suffix = models.CharField(max_length=200)
+    suffix = models.CharField(max_length=200, blank=True)
     email = models.CharField(max_length=200)
-    company = models.CharField(max_length=200)
-    display_name = models.CharField(max_length=200)
-    print_on_check_as = models.CharField(max_length=200)
+    company = models.CharField(max_length=200, blank=True)
+    display_name = models.CharField(max_length=200, blank=True)
+    print_on_check_as = models.CharField(max_length=200, blank=True)
     billing_street = models.CharField(max_length=200)
     billing_city = models.CharField(max_length=200)
     billing_state = models.CharField(max_length=2)
     billing_zip = models.CharField(max_length=10)
     billing_country = models.CharField(max_length=200) 
-    shipping_street = models.CharField(max_length=200)
-    shipping_city = models.CharField(max_length=200)
-    shipping_state = models.CharField(max_length=2)
-    shipping_zip = models.CharField(max_length=10)
-    shipping_country = models.CharField(max_length=200)   
-    other_details = models.CharField(max_length=500)
+    shipping_street = models.CharField(max_length=200, blank=True)
+    shipping_city = models.CharField(max_length=200, blank=True)
+    shipping_state = models.CharField(max_length=2, blank=True)
+    shipping_zip = models.CharField(max_length=10, blank=True)
+    shipping_country = models.CharField(max_length=200, blank=True)   
+    other_details = models.TextField(blank=True)
        
     def __unicode__(self):  
         return self.first_name + " " + self.last_name 
@@ -33,7 +33,12 @@ class Customers(models.Model):
             list.append(i.total)
         total_cost = sum(list) 			
         return total_cost
-    total_cost = property(_total_cost_per_customer) 
+    total_cost = property(_total_cost_per_customer)
+
+    def print_on_check(self):
+        if self.print_on_check_as == None:
+            self.print_on_check_as = self.display_name
+            return self.print_on_check_as			
 
 class Products(models.Model):
     name = models.CharField(max_length=500) 

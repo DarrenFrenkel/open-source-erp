@@ -27,3 +27,17 @@ h1,h2,h3,h4,h5,h6,a,p,ul,li{font-family:Helvetica Neue,Helvetica!important}a:hov
 
 }
 
+.customer-label{
+	margin-bottom: 10px;
+	font-weight: 800;
+}
+
+.customer-info-container{
+	margin-bottom: 10px;
+}
+
+.address{
+	width: 265px;
+	margin-right: 5px;
+}
+

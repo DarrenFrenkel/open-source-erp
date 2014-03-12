@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'south',	
     'erp_app',
+    'widget_tweaks' 	
 )
 
 MIDDLEWARE_CLASSES = (
